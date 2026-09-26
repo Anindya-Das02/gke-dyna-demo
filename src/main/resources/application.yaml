@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: gke-dyna-demo
+external:
+  apis:
+    posts:
+      baseUrl: https://jsonplaceholder.typicode.com/posts
+      connectTimeout: 3s
+      readTimeout: 6s
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics, loggers
+  endpoint:
+    health:
+      show-details: always
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [${spring.application.name}] [%thread] %logger{36} trxId=\"%X{trxId}\" - %msg%n"
