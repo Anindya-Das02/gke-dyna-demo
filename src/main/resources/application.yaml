@@ -15,6 +15,13 @@ management:
   endpoint:
     health:
       show-details: always
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [${spring.application.name}] [%thread] %logger{36} trxId=\"%X{trxId}\" - %msg%n"

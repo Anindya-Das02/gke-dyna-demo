@@ -1,0 +1,23 @@
+# service.yaml
+#
+# Default type here is ClusterIP (internal only). To expose it directly
+# to the outside world without Ingress, change `type` below:
+#
+#   - minikube testing : type: NodePort      -> `minikube service gke-dyna-demo`
+#   - GKE               : type: LoadBalancer -> GKE provisions an external IP automatically
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: gke-dyna-demo
+  labels:
+    app: gke-dyna-demo
+spec:
+  type: LoadBalancer
+  selector:
+    app: gke-dyna-demo
+  ports:
+    - port: 80          # port other things in-cluster (or an Ingress) hit
+      targetPort: 8080  # container port (Spring Boot default)
+      nodePort: 30080   # fixed external-ish port on every node (30000-32767)
+      protocol: TCP
