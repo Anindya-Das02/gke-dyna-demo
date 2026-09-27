@@ -18,9 +18,14 @@ import java.util.UUID;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @Slf4j
-public class TrxIdFilter extends OncePerRequestFilter {
+public class RequestResponseFilter extends OncePerRequestFilter {
     private static final String TRX_ID_HEADER = "X-Trx-Id";
     private static final String MDC_KEY = "trxId";
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return request.getRequestURI().startsWith("/actuator");
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -33,9 +38,12 @@ public class TrxIdFilter extends OncePerRequestFilter {
         MDC.put(MDC_KEY, trxId);
         response.setHeader(TRX_ID_HEADER, trxId);
 
+        long startTime = System.currentTimeMillis();
         try {
             filterChain.doFilter(request, response);
         } finally {
+            long durationInMs = System.currentTimeMillis() - startTime;
+            log.info("[API Response] method={} uri={} status={} durationInMs={}", request.getMethod(), request.getRequestURI(), response.getStatus(), durationInMs);
             MDC.remove(MDC_KEY);
         }
     }
