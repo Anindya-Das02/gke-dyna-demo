@@ -19,5 +19,4 @@ spec:
   ports:
     - port: 80          # port other things in-cluster (or an Ingress) hit
       targetPort: 8080  # container port (Spring Boot default)
-      nodePort: 30080   # fixed external-ish port on every node (30000-32767)
       protocol: TCP
