@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gke-dyna-demo-config
+  namespace: dyna-demo
+data:
+  application.yaml: |
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health, info
+      endpoint:
+        health:
+          show-details: never
+    server:
+      shutdown: graceful
+    spring:
+      lifecycle:
+        timeout-per-shutdown-phase: 20s
+    springdoc:
+      api-docs:
+        enabled: false
+      swagger-ui:
+        enabled: false
+    external:
+      apis:
+        posts:
+          readTimeout: 10s
