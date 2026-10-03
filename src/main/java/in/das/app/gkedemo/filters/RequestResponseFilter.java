@@ -32,7 +32,7 @@ public class RequestResponseFilter extends OncePerRequestFilter {
         String trxId = request.getHeader(TRX_ID_HEADER);
         if (!StringUtils.hasText(trxId)) {
             trxId = UUID.randomUUID().toString();
-            log.warn("No trxId received in request header '{}'; using generated trxId:{}", TRX_ID_HEADER, trxId);
+            log.debug("No trxId received in request header '{}'; using generated trxId:{}", TRX_ID_HEADER, trxId);
         }
 
         MDC.put(MDC_KEY, trxId);
