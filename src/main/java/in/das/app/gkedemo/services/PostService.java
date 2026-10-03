@@ -43,6 +43,16 @@ public class PostService {
     }
 
     public Post getPostById(final int postId) {
+        // simulating error for few postIds
+        if (postId == 6) {
+            throw new ResourceNotFoundException("post with id:6 not found!");
+        }
+        else if (postId == 7) {
+            throw new RuntimeException("A runtime exception occurred!");
+        }
+        else if(postId == 8) {
+            throw new NullPointerException("a null pointer exception occurred!");
+        }
         return postClient.get()
                 .uri("/{id}", postId)
                 .retrieve()
